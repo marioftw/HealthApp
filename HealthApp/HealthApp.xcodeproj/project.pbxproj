@@ -12,6 +12,14 @@
 		B3BD761F22D3BD7100B9A9E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3BD761D22D3BD7100B9A9E9 /* Main.storyboard */; };
 		B3BD762122D3BD8600B9A9E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3BD762022D3BD8600B9A9E9 /* Assets.xcassets */; };
 		B3BD762422D3BD8600B9A9E9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3BD762222D3BD8600B9A9E9 /* LaunchScreen.storyboard */; };
+		B3BD762C22D3C4CC00B9A9E9 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD762B22D3C4CC00B9A9E9 /* Util.swift */; };
+		B3BD762E22D3C62500B9A9E9 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD762D22D3C62500B9A9E9 /* MainPageViewController.swift */; };
+		B3BD763022D3C69C00B9A9E9 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD762F22D3C69C00B9A9E9 /* MainTableViewCell.swift */; };
+		B3BD763222D3C6D300B9A9E9 /* PatientCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD763122D3C6D300B9A9E9 /* PatientCollectionViewCell.swift */; };
+		B3BD763422D3C71100B9A9E9 /* SecondaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD763322D3C71100B9A9E9 /* SecondaryTableViewCell.swift */; };
+		B3BD763622D3D8BD00B9A9E9 /* InformationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD763522D3D8BD00B9A9E9 /* InformationTableViewCell.swift */; };
+		B3BD763822D3E74B00B9A9E9 /* PatientProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD763722D3E74B00B9A9E9 /* PatientProfileViewController.swift */; };
+		B3BD763A22D3E93600B9A9E9 /* InfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD763922D3E93600B9A9E9 /* InfoTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +30,14 @@
 		B3BD762022D3BD8600B9A9E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3BD762322D3BD8600B9A9E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B3BD762522D3BD8600B9A9E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3BD762B22D3C4CC00B9A9E9 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		B3BD762D22D3C62500B9A9E9 /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
+		B3BD762F22D3C69C00B9A9E9 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		B3BD763122D3C6D300B9A9E9 /* PatientCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientCollectionViewCell.swift; sourceTree = "<group>"; };
+		B3BD763322D3C71100B9A9E9 /* SecondaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryTableViewCell.swift; sourceTree = "<group>"; };
+		B3BD763522D3D8BD00B9A9E9 /* InformationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationTableViewCell.swift; sourceTree = "<group>"; };
+		B3BD763722D3E74B00B9A9E9 /* PatientProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientProfileViewController.swift; sourceTree = "<group>"; };
+		B3BD763922D3E93600B9A9E9 /* InfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,9 +71,17 @@
 			isa = PBXGroup;
 			children = (
 				B3BD761922D3BD7100B9A9E9 /* AppDelegate.swift */,
+				B3BD763722D3E74B00B9A9E9 /* PatientProfileViewController.swift */,
 				B3BD761B22D3BD7100B9A9E9 /* ViewController.swift */,
+				B3BD763522D3D8BD00B9A9E9 /* InformationTableViewCell.swift */,
+				B3BD763922D3E93600B9A9E9 /* InfoTableViewCell.swift */,
+				B3BD763322D3C71100B9A9E9 /* SecondaryTableViewCell.swift */,
+				B3BD762B22D3C4CC00B9A9E9 /* Util.swift */,
 				B3BD761D22D3BD7100B9A9E9 /* Main.storyboard */,
 				B3BD762022D3BD8600B9A9E9 /* Assets.xcassets */,
+				B3BD762D22D3C62500B9A9E9 /* MainPageViewController.swift */,
+				B3BD762F22D3C69C00B9A9E9 /* MainTableViewCell.swift */,
+				B3BD763122D3C6D300B9A9E9 /* PatientCollectionViewCell.swift */,
 				B3BD762222D3BD8600B9A9E9 /* LaunchScreen.storyboard */,
 				B3BD762522D3BD8600B9A9E9 /* Info.plist */,
 			);
@@ -135,8 +159,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3BD762E22D3C62500B9A9E9 /* MainPageViewController.swift in Sources */,
+				B3BD763A22D3E93600B9A9E9 /* InfoTableViewCell.swift in Sources */,
 				B3BD761C22D3BD7100B9A9E9 /* ViewController.swift in Sources */,
+				B3BD763622D3D8BD00B9A9E9 /* InformationTableViewCell.swift in Sources */,
+				B3BD763222D3C6D300B9A9E9 /* PatientCollectionViewCell.swift in Sources */,
+				B3BD763822D3E74B00B9A9E9 /* PatientProfileViewController.swift in Sources */,
+				B3BD762C22D3C4CC00B9A9E9 /* Util.swift in Sources */,
 				B3BD761A22D3BD7100B9A9E9 /* AppDelegate.swift in Sources */,
+				B3BD763422D3C71100B9A9E9 /* SecondaryTableViewCell.swift in Sources */,
+				B3BD763022D3C69C00B9A9E9 /* MainTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +317,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R27L3GB44P;
 				INFOPLIST_FILE = HealthApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -303,6 +336,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R27L3GB44P;
 				INFOPLIST_FILE = HealthApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
