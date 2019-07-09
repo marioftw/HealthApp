@@ -36,14 +36,14 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MainCell", for: indexPath) as! MainTableViewCell
             cell.nameLabel.text = "Dr. Smith"
-            cell.patientsQuantityLabel.text = "You've got 6 patients today"
+            cell.patientsQuantityLabel.text = "You've got \(names.count) patients today"
             self.collectionView = cell.patientsCollectionView
             return cell
         } else if indexPath.row == 1 {
@@ -53,10 +53,21 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
             cell.patientNameLabel.text = names.first
             cell.patientImageView.image = images.first
             return cell
-        } else {
+        } else if indexPath.row == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath) as! BasicBigTableViewCell
+            cell.contentView.backgroundColor = #colorLiteral(red: 0.9994794726, green: 0.9222456217, blue: 0.8273747563, alpha: 1)
+            cell.titleLabel.textColor = #colorLiteral(red: 0.14901492, green: 0.3072064519, blue: 0.4399905205, alpha: 1)
+            cell.subtitleLabel.textColor = #colorLiteral(red: 0.1918424666, green: 0.3328226805, blue: 0.4559432268, alpha: 1)
             cell.titleLabel.text = "My Patients"
             cell.subtitleLabel.text = "Look in a list with all your patients"
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath) as! BasicBigTableViewCell
+            cell.contentView.backgroundColor = #colorLiteral(red: 0.9723386168, green: 0.5278795958, blue: 0.4031898975, alpha: 1)
+            cell.titleLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            cell.titleLabel.text = "My Profile Info"
+            cell.subtitleLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            cell.subtitleLabel.text = "Change your basic information"
             return cell
         }
     }
@@ -68,9 +79,10 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 2 {
+        if indexPath.row == 2 || indexPath.row == 3 {
             return 200.0
         }
+        
         return 450.0
     }
     
@@ -82,7 +94,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
         if collectionView.tag == 1 {
             return 3
         }
-        return 5
+        return names.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
