@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B341EE1522D432BD002F96BC /* MyPatientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B341EE1422D432BD002F96BC /* MyPatientsViewController.swift */; };
+		B341EE1722D432D0002F96BC /* PatientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B341EE1622D432D0002F96BC /* PatientTableViewCell.swift */; };
+		B341EE1D22D43F8C002F96BC /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B341EE1B22D43F8C002F96BC /* RecordViewController.swift */; };
+		B341EE2522D44010002F96BC /* RecordMainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B341EE2422D4400F002F96BC /* RecordMainTableViewCell.swift */; };
 		B3BD761A22D3BD7100B9A9E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD761922D3BD7100B9A9E9 /* AppDelegate.swift */; };
 		B3BD761C22D3BD7100B9A9E9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD761B22D3BD7100B9A9E9 /* ViewController.swift */; };
 		B3BD761F22D3BD7100B9A9E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3BD761D22D3BD7100B9A9E9 /* Main.storyboard */; };
@@ -20,9 +24,14 @@
 		B3BD763622D3D8BD00B9A9E9 /* InformationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD763522D3D8BD00B9A9E9 /* InformationTableViewCell.swift */; };
 		B3BD763822D3E74B00B9A9E9 /* PatientProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD763722D3E74B00B9A9E9 /* PatientProfileViewController.swift */; };
 		B3BD763A22D3E93600B9A9E9 /* InfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD763922D3E93600B9A9E9 /* InfoTableViewCell.swift */; };
+		B3F4361222D42F1E00036EEC /* BasicBigTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F4361122D42F1E00036EEC /* BasicBigTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B341EE1422D432BD002F96BC /* MyPatientsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPatientsViewController.swift; sourceTree = "<group>"; };
+		B341EE1622D432D0002F96BC /* PatientTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientTableViewCell.swift; sourceTree = "<group>"; };
+		B341EE1B22D43F8C002F96BC /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
+		B341EE2422D4400F002F96BC /* RecordMainTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordMainTableViewCell.swift; sourceTree = "<group>"; };
 		B3BD761622D3BD7100B9A9E9 /* HealthApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3BD761922D3BD7100B9A9E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3BD761B22D3BD7100B9A9E9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -38,6 +47,7 @@
 		B3BD763522D3D8BD00B9A9E9 /* InformationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationTableViewCell.swift; sourceTree = "<group>"; };
 		B3BD763722D3E74B00B9A9E9 /* PatientProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientProfileViewController.swift; sourceTree = "<group>"; };
 		B3BD763922D3E93600B9A9E9 /* InfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewCell.swift; sourceTree = "<group>"; };
+		B3F4361122D42F1E00036EEC /* BasicBigTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicBigTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +61,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B341EE1822D43E0B002F96BC /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B3F4361122D42F1E00036EEC /* BasicBigTableViewCell.swift */,
+				B3BD763522D3D8BD00B9A9E9 /* InformationTableViewCell.swift */,
+				B3BD763922D3E93600B9A9E9 /* InfoTableViewCell.swift */,
+				B3BD763322D3C71100B9A9E9 /* SecondaryTableViewCell.swift */,
+				B3BD762F22D3C69C00B9A9E9 /* MainTableViewCell.swift */,
+				B3BD763122D3C6D300B9A9E9 /* PatientCollectionViewCell.swift */,
+				B341EE1622D432D0002F96BC /* PatientTableViewCell.swift */,
+				B341EE2422D4400F002F96BC /* RecordMainTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		B341EE1922D43E21002F96BC /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B341EE1B22D43F8C002F96BC /* RecordViewController.swift */,
+				B3BD763722D3E74B00B9A9E9 /* PatientProfileViewController.swift */,
+				B3BD761B22D3BD7100B9A9E9 /* ViewController.swift */,
+				B3BD762D22D3C62500B9A9E9 /* MainPageViewController.swift */,
+				B341EE1422D432BD002F96BC /* MyPatientsViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		B3BD760D22D3BD7100B9A9E9 = {
 			isa = PBXGroup;
 			children = (
@@ -71,17 +108,11 @@
 			isa = PBXGroup;
 			children = (
 				B3BD761922D3BD7100B9A9E9 /* AppDelegate.swift */,
-				B3BD763722D3E74B00B9A9E9 /* PatientProfileViewController.swift */,
-				B3BD761B22D3BD7100B9A9E9 /* ViewController.swift */,
-				B3BD763522D3D8BD00B9A9E9 /* InformationTableViewCell.swift */,
-				B3BD763922D3E93600B9A9E9 /* InfoTableViewCell.swift */,
-				B3BD763322D3C71100B9A9E9 /* SecondaryTableViewCell.swift */,
+				B341EE1922D43E21002F96BC /* ViewController */,
+				B341EE1822D43E0B002F96BC /* Cell */,
 				B3BD762B22D3C4CC00B9A9E9 /* Util.swift */,
 				B3BD761D22D3BD7100B9A9E9 /* Main.storyboard */,
 				B3BD762022D3BD8600B9A9E9 /* Assets.xcassets */,
-				B3BD762D22D3C62500B9A9E9 /* MainPageViewController.swift */,
-				B3BD762F22D3C69C00B9A9E9 /* MainTableViewCell.swift */,
-				B3BD763122D3C6D300B9A9E9 /* PatientCollectionViewCell.swift */,
 				B3BD762222D3BD8600B9A9E9 /* LaunchScreen.storyboard */,
 				B3BD762522D3BD8600B9A9E9 /* Info.plist */,
 			);
@@ -161,12 +192,17 @@
 			files = (
 				B3BD762E22D3C62500B9A9E9 /* MainPageViewController.swift in Sources */,
 				B3BD763A22D3E93600B9A9E9 /* InfoTableViewCell.swift in Sources */,
+				B341EE2522D44010002F96BC /* RecordMainTableViewCell.swift in Sources */,
+				B341EE1522D432BD002F96BC /* MyPatientsViewController.swift in Sources */,
+				B341EE1722D432D0002F96BC /* PatientTableViewCell.swift in Sources */,
 				B3BD761C22D3BD7100B9A9E9 /* ViewController.swift in Sources */,
 				B3BD763622D3D8BD00B9A9E9 /* InformationTableViewCell.swift in Sources */,
 				B3BD763222D3C6D300B9A9E9 /* PatientCollectionViewCell.swift in Sources */,
+				B3F4361222D42F1E00036EEC /* BasicBigTableViewCell.swift in Sources */,
 				B3BD763822D3E74B00B9A9E9 /* PatientProfileViewController.swift in Sources */,
 				B3BD762C22D3C4CC00B9A9E9 /* Util.swift in Sources */,
 				B3BD761A22D3BD7100B9A9E9 /* AppDelegate.swift in Sources */,
+				B341EE1D22D43F8C002F96BC /* RecordViewController.swift in Sources */,
 				B3BD763422D3C71100B9A9E9 /* SecondaryTableViewCell.swift in Sources */,
 				B3BD763022D3C69C00B9A9E9 /* MainTableViewCell.swift in Sources */,
 			);
@@ -322,7 +358,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.moisesCordova.HealthApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.moisesCordova.HealthAppDoctor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -341,7 +377,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.moisesCordova.HealthApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.moisesCordova.HealthAppDoctor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

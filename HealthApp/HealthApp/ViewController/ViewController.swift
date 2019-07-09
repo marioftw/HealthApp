@@ -20,6 +20,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
+    
+    override var prefersStatusBarHidden: Bool {
+         return true
+    }
+    
     @IBAction func seeAllButtonPressed(_ sender: UIButton) {
     }
     
@@ -31,7 +36,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,17 +46,31 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
             cell.patientsQuantityLabel.text = "You've got 6 patients today"
             self.collectionView = cell.patientsCollectionView
             return cell
-        } else {
+        } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SecondaryCell", for: indexPath) as! SecondaryTableViewCell
             self.secondCollectionView = cell.collectionView
             cell.titleLabel.text = "Upcoming Patient"
             cell.patientNameLabel.text = names.first
             cell.patientImageView.image = images.first
             return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath) as! BasicBigTableViewCell
+            cell.titleLabel.text = "My Patients"
+            cell.subtitleLabel.text = "Look in a list with all your patients"
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 2 {
+            performSegue(withIdentifier: "showMyPatientsVC", sender: nil)
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 2 {
+            return 200.0
+        }
         return 450.0
     }
     
@@ -91,14 +110,9 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let totalCellWidth = 100 * collectionView.numberOfItems(inSection: 0)
-        let totalSpacingWidth = 10 * (collectionView.numberOfItems(inSection: 0) - 1)
-        let leftInset = (collectionView.layer.frame.size.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
-        let rightInset = leftInset
-        
-        return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
-    }
+    /*func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 100, bottom: 0, right: 0);
+    }*/
     
 }
 

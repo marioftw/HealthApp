@@ -18,6 +18,13 @@ extension UIImageView {
     }
 }
 
+extension UINavigationBar {
+    func setMinimal() {
+        self.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.shadowImage = UIImage()
+    }
+}
+
 @IBDesignable
 class CardView: UIView {
     
