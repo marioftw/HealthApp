@@ -1,5 +1,5 @@
 //
-//  AppointmentInformationTableViewCell.swift
+//  ContactTableViewCell.swift
 //  HealthApp
 //
 //  Created by Moisés Córdova on 7/6/19.
@@ -8,14 +8,12 @@
 
 import UIKit
 
-class AppointmentInformationTableViewCell: UITableViewCell {
+class ContactTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var doctorImageView: UIImageView!
-    @IBOutlet weak var patientNameLabel: UILabel!
-    @IBOutlet weak var genderLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var hourLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var specialistButton: UIButton!
+    var allowsSelection = false
     override func awakeFromNib() {
         super.awakeFromNib()
         profileImageView.setRounded()
@@ -24,8 +22,9 @@ class AppointmentInformationTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        if allowsSelection {
+            self.accessoryType = selected ? .checkmark : .none
+        }
     }
 
 }

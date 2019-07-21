@@ -15,17 +15,7 @@ class MyPatientsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.setMinimal()
-        self.patients = getPatients(number: 10)
         // Do any additional setup after loading the view.
-    }
-    
-    func getPatients(number: Int) -> [Patient] {
-        var myPatients = [Patient]()
-        for _ in 0..<number {
-            let patient = Patient(name: "Jeff Moon", age: 25, gender: "Male", profilePicture: #imageLiteral(resourceName: "male1"))
-            myPatients.append(patient)
-        }
-        return myPatients
     }
     
     @IBAction func dondeButtonPressed(_ sender: UIBarButtonItem) {
@@ -45,7 +35,7 @@ extension MyPatientsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PatientCell") as! PatientTableViewCell
-        cell.patientNameLabel.text = patients[indexPath.row].name
+        cell.patientNameLabel.text = patients[indexPath.row].firstName
         cell.patientAgeLabel.text = "\(patients[indexPath.row].age)"
         cell.patientImageView.image = patients[indexPath.row].profilePicture
         return cell
@@ -53,19 +43,5 @@ extension MyPatientsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "showPatientVC", sender: nil)
-    }
-}
-
-class Patient {
-    var name: String = ""
-    var age: Int = 0
-    var gender: String = ""
-    var profilePicture: UIImage!
-    
-    init(name: String, age: Int, gender: String, profilePicture: UIImage) {
-        self.name = name
-        self.age = age
-        self.gender = gender
-        self.profilePicture = profilePicture
     }
 }

@@ -1,18 +1,20 @@
 //
-//  NoteTableViewCell.swift
+//  ImageTableViewCell.swift
 //  HealthApp
 //
-//  Created by Moisés Córdova on 7/6/19.
+//  Created by Moisés Córdova on 7/18/19.
 //  Copyright © 2019 Moisés Córdova. All rights reserved.
 //
 
 import UIKit
 
-class NoteTableViewCell: UITableViewCell {
+class ImageTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var noteTextView: UITextView!
+    @IBOutlet weak var profileImage: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        profileImage.setRounded()
         // Initialization code
     }
 

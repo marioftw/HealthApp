@@ -1,20 +1,20 @@
 //
-//  RecordMainTableViewCell.swift
+//  CardTableViewCell.swift
 //  HealthApp
 //
-//  Created by Moisés Córdova on 7/7/19.
+//  Created by Moisés Córdova on 7/5/19.
 //  Copyright © 2019 Moisés Córdova. All rights reserved.
 //
 
 import UIKit
 
-class RecordMainTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var cardView: CardView!
-    @IBOutlet weak var titleRecord: UILabel!
-    @IBOutlet weak var dateRecord: UILabel!
-    @IBOutlet weak var imageRecord: UIImageView!
+class CardTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var cardView: CardView!
+    @IBOutlet weak var topicIcon: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var quantityLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
