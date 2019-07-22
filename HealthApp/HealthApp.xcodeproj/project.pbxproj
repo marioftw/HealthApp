@@ -40,6 +40,10 @@
 		B341EE1522D432BD002F96BC /* MyPatientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B341EE1422D432BD002F96BC /* MyPatientsViewController.swift */; };
 		B341EE1722D432D0002F96BC /* PatientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B341EE1622D432D0002F96BC /* PatientTableViewCell.swift */; };
 		B341EE1D22D43F8C002F96BC /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B341EE1B22D43F8C002F96BC /* RecordViewController.swift */; };
+		B364777D22E5793E00B3FA9B /* SaveAppointmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B364777C22E5793E00B3FA9B /* SaveAppointmentViewController.swift */; };
+		B364777F22E5799100B3FA9B /* CreateAppointmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B364777E22E5799100B3FA9B /* CreateAppointmentViewController.swift */; };
+		B364778222E58EEC00B3FA9B /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B364778022E58EEB00B3FA9B /* QRViewController.swift */; };
+		B364778322E58EEC00B3FA9B /* QRAnalyzerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B364778122E58EEB00B3FA9B /* QRAnalyzerViewController.swift */; };
 		B3BD761A22D3BD7100B9A9E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD761922D3BD7100B9A9E9 /* AppDelegate.swift */; };
 		B3BD761C22D3BD7100B9A9E9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BD761B22D3BD7100B9A9E9 /* ViewController.swift */; };
 		B3BD761F22D3BD7100B9A9E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3BD761D22D3BD7100B9A9E9 /* Main.storyboard */; };
@@ -94,6 +98,10 @@
 		B341EE1422D432BD002F96BC /* MyPatientsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPatientsViewController.swift; sourceTree = "<group>"; };
 		B341EE1622D432D0002F96BC /* PatientTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientTableViewCell.swift; sourceTree = "<group>"; };
 		B341EE1B22D43F8C002F96BC /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
+		B364777C22E5793E00B3FA9B /* SaveAppointmentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveAppointmentViewController.swift; sourceTree = "<group>"; };
+		B364777E22E5799100B3FA9B /* CreateAppointmentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAppointmentViewController.swift; sourceTree = "<group>"; };
+		B364778022E58EEB00B3FA9B /* QRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRViewController.swift; sourceTree = "<group>"; };
+		B364778122E58EEB00B3FA9B /* QRAnalyzerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRAnalyzerViewController.swift; sourceTree = "<group>"; };
 		B3BD761622D3BD7100B9A9E9 /* HealthApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3BD761922D3BD7100B9A9E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3BD761B22D3BD7100B9A9E9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -205,7 +213,11 @@
 				B3BD763722D3E74B00B9A9E9 /* PatientProfileViewController.swift */,
 				B3BD762D22D3C62500B9A9E9 /* MainPageViewController.swift */,
 				B341EE1422D432BD002F96BC /* MyPatientsViewController.swift */,
+				B364777C22E5793E00B3FA9B /* SaveAppointmentViewController.swift */,
 				B3ECEBA122D508B20070A5FE /* AppointmentViewController.swift */,
+				B364777E22E5799100B3FA9B /* CreateAppointmentViewController.swift */,
+				B364778122E58EEB00B3FA9B /* QRAnalyzerViewController.swift */,
+				B364778022E58EEB00B3FA9B /* QRViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -380,6 +392,8 @@
 				B32B690522E3EF95005BE762 /* Patient.swift in Sources */,
 				B32B690822E3EF95005BE762 /* ProfileTableViewCell.swift in Sources */,
 				B3BD762E22D3C62500B9A9E9 /* MainPageViewController.swift in Sources */,
+				B364777D22E5793E00B3FA9B /* SaveAppointmentViewController.swift in Sources */,
+				B364778322E58EEC00B3FA9B /* QRAnalyzerViewController.swift in Sources */,
 				B32B690C22E3EF95005BE762 /* CardTableViewCell.swift in Sources */,
 				B32B690D22E3EF95005BE762 /* ImageTableViewCell.swift in Sources */,
 				B3BD763A22D3E93600B9A9E9 /* InfoTableViewCell.swift in Sources */,
@@ -399,6 +413,7 @@
 				B32B691022E3EF95005BE762 /* DoctorProfileTableViewCell.swift in Sources */,
 				B32B691B22E3EF95005BE762 /* HealthKitService.swift in Sources */,
 				B32B692122E3F366005BE762 /* NoteTableViewCell.swift in Sources */,
+				B364777F22E5799100B3FA9B /* CreateAppointmentViewController.swift in Sources */,
 				B3BD761C22D3BD7100B9A9E9 /* ViewController.swift in Sources */,
 				B3BD763622D3D8BD00B9A9E9 /* InformationTableViewCell.swift in Sources */,
 				B3BD763222D3C6D300B9A9E9 /* PatientCollectionViewCell.swift in Sources */,
@@ -408,6 +423,7 @@
 				B3F4361222D42F1E00036EEC /* BasicBigTableViewCell.swift in Sources */,
 				B32B691822E3EF95005BE762 /* TableItemCardTableViewCell.swift in Sources */,
 				B3BD763822D3E74B00B9A9E9 /* PatientProfileViewController.swift in Sources */,
+				B364778222E58EEC00B3FA9B /* QRViewController.swift in Sources */,
 				B32B68E522E3EF0F005BE762 /* RegisterViewController.swift in Sources */,
 				B32B690922E3EF95005BE762 /* PlaceholderTableViewCell.swift in Sources */,
 				B32B690622E3EF95005BE762 /* Appointment.swift in Sources */,

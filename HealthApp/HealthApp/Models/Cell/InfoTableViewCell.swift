@@ -12,10 +12,16 @@ class InfoTableViewCell: UITableViewCell {
 
     @IBOutlet var cardView: CardView!
     @IBOutlet weak var statusCardLabel: UILabel!
-    @IBOutlet weak var historyButton: UIButton!
-    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet var cardInfo: CardView!
+    
+    @IBOutlet var firstItemLabel: UILabel!
+    @IBOutlet var firstDetailLabel: UILabel!
+    @IBOutlet var secondItemLabel: UILabel!
+    @IBOutlet var secondDetailLabel: UILabel!
+    @IBOutlet var thirdItemLabel: UILabel!
+    @IBOutlet var thirdDetailLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -147,6 +147,12 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
+    var monthAndDayString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d"
+        return dateFormatter.string(from: self)
+    }
+    
     var hourAndMinutes: String {
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: self)

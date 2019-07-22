@@ -13,7 +13,14 @@ class SecondaryTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var patientNameLabel: UILabel!
     @IBOutlet weak var patientImageView: UIImageView!
-    @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBOutlet var firstContentLabel: UILabel!
+    @IBOutlet var firstDetailLabel: UILabel!
+    @IBOutlet var secondContentLabel: UILabel!
+    @IBOutlet var secondDetailLabel: UILabel!
+    @IBOutlet var thirdContentLabel: UILabel!
+    @IBOutlet var thirdDetailLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

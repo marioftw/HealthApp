@@ -131,4 +131,21 @@ class Doctor: Object {
             self.remove(patient: localPatient)
         }
     }
+    
+    func removeAppoinmentWith(uid: String) {
+        if let localAppointment = self.realm?.object(ofType: Appointment.self, forPrimaryKey: uid) {
+            self.remove(appointment: localAppointment)
+        }
+    }
+    
+    func remove(appointment: Appointment) {
+        DatabaseService.shared.remove(appointmentUID: appointment.id, patientUID: appointment.patientUid, doctorUID: appointment.doctorUid)
+        do {
+            try realm?.write {
+                realm?.delete(appointment)
+            }
+        } catch {
+            print("Error deleting: \(error.localizedDescription)")
+        }
+    }
 }

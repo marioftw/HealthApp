@@ -14,6 +14,7 @@ class PatientTableViewCell: UITableViewCell {
     @IBOutlet var patientNameLabel: UILabel!
     @IBOutlet var patientGenderLabel: UILabel!
     @IBOutlet var patientAgeLabel: UILabel!
+    var allowsSelection = false
     override func awakeFromNib() {
         patientImageView.setRounded(bordedColor: UIColor.clear, borderWitdht: 0)
         super.awakeFromNib()
@@ -22,8 +23,9 @@ class PatientTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        if allowsSelection {
+            self.accessoryType = selected ? .checkmark : .none
+        }
     }
 
 }

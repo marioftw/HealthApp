@@ -13,10 +13,8 @@ import FirebaseStorage
 class ViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     var collectionView: UICollectionView!
-    var secondCollectionView: UICollectionView!
     let realm = try? Realm()
     var doctor: Doctor?
-    var upcomingPatient: Patient?
     var todayPatients = [Patient]()
     @IBOutlet var tableView: UITableView!
     
@@ -24,14 +22,16 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setRefreshControl()
         initMethods()
-        // Do any additional setup after loading the view.
     }
     
     @objc func initMethods() {
         setDoctor()
         checkCloudInformation()
         getPatientsUIDS()
+        checkInCloudAppointments()
     }
+    
+    
     
     func setRefreshControl() {
         tableView.refreshControl = refreshControl
@@ -89,12 +89,11 @@ class ViewController: UIViewController {
                     }
                     self.refreshControl.endRefreshing()
                     self.tableView.reloadData()
+                    self.collectionView.reloadData()
                 })
             }
         }
     }
-    
-    
     
     func checkChanges(doctorDict: Dictionary<String, AnyObject>) {
         var hasDoctor = true
@@ -372,11 +371,101 @@ class ViewController: UIViewController {
         }
     }
     
+    func getAppointmentsFor(date: Date) -> [Appointment] {
+        //let events = doctor?.appointments.filter({ return $0.startDate.shortDate == date.shortDate })
+        //return events?.sorted(by: { $0.startDate < $1.startDate }) ?? []
+        return doctor?.appointments.sorted(by: { $0.startDate < $1.startDate }) ?? []
+    }
+    
+    @objc func checkInCloudAppointments() {
+        var uids = [String]()
+        guard let doctorUID = doctor?.uid else { return }
+        DatabaseService.shared.doctorsRef.child(doctorUID).child("appointments").observeSingleEvent(of: .value) { (snapshot) in
+            if let appointmentsUID = snapshot.value as? Dictionary<String, AnyObject> {
+                for appointmentUID in appointmentsUID {
+                    if let removed = appointmentUID.value["removed"] as? Bool {
+                        if removed {
+                            DispatchQueue.main.async {
+                                self.doctor?.removeAppoinmentWith(uid: appointmentUID.key)
+                                self.tableView.reloadData()
+                            }
+                        } else {
+                            uids.append(appointmentUID.key)
+                        }
+                    }
+                    
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.downloadAppointments(uids: uids)
+            }
+        }
+    }
+    
+    func downloadAppointments(uids: [String]) {
+        for uid in uids {
+            DatabaseService.shared.appointmentsRef.child(uid).observeSingleEvent(of: .value) { (snapshot) in
+                if let appointmentDict = snapshot.value as? Dictionary<String, AnyObject> {
+                    
+                    if let patientUID = appointmentDict["patientUID"] as? String,
+                        let startDate = appointmentDict["startDate"] as? String,
+                        let endDate = appointmentDict["endDate"] as? String
+                    {
+                        if let myStartDate = startDate.createDate,
+                            let myEndDate = endDate.createDate {
+                            let notes = appointmentDict["notes"] as? String
+                            DispatchQueue.main.async {
+                                if self.realm?.object(ofType: Appointment.self, forPrimaryKey: uid) == nil {
+                                   let appointment = Appointment(startDate: myStartDate, endDate: myEndDate, doctorUid: self.doctor!.uid, patientUid: patientUID, notes: notes)
+                                    do {
+                                        try self.realm?.write {
+                                            self.doctor?.appointments.append(appointment)
+                                        }
+                                    } catch {
+                                        print("Error writting locally: \(error.localizedDescription)")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        getPatientsWith(appointments: getAppointmentsFor(date: Date()))
+    }
+    
+    func getPatientsWith(appointments: [Appointment]) {
+        for appointment in appointments {
+            guard let myPatient = realm?.object(ofType: Patient.self, forPrimaryKey: appointment.patientUid) else { return }
+            if !todayPatients.contains(myPatient) {
+                todayPatients.append(myPatient)
+            }
+        }
+        self.tableView.reloadData()
+        self.refreshControl.endRefreshing()
+    }
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
     @IBAction func seeAllButtonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "showPatientNC", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let navigationController = segue.destination as? UINavigationController else { return }
+    
+        if segue.identifier == "showMyPatientsNC" {
+                if let viewController = navigationController.topViewController as? MyPatientsViewController {
+                    viewController.patients = Array<Patient>(self.doctor?.patients ?? List<Patient>())
+                }
+        } else if segue.identifier == "showPatientNC" {
+            if let viewController = navigationController.topViewController as? PatientProfileViewController {
+                viewController.patient = self.todayPatients.first
+            }
+        }
     }
     
 }
@@ -387,7 +476,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -399,10 +488,16 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
             return cell
         } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SecondaryCell", for: indexPath) as! SecondaryTableViewCell
-            self.secondCollectionView = cell.collectionView
             cell.titleLabel.text = "Upcoming Patient"
             cell.patientNameLabel.text = todayPatients.first?.firstName
             cell.patientImageView.image = todayPatients.first?.profilePicture
+            
+            cell.firstDetailLabel.text = "Age"
+            cell.firstContentLabel.text = "\(todayPatients.first?.age ?? 0) y/o"
+            cell.secondDetailLabel.text = "Height"
+            cell.secondContentLabel.text = HealthKitService.shared.getFormated(measure: todayPatients.first?.heightRecords.last?.height ?? 0.0, on: .meter)
+            cell.thirdDetailLabel.text = "Weight"
+            cell.thirdContentLabel.text = HealthKitService.shared.getFormated(measure: todayPatients.first?.weightRecords.last?.weight ?? 0.0, on: .kilogram)
             return cell
         } else if indexPath.row == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath) as! BasicBigTableViewCell
@@ -412,7 +507,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
             cell.titleLabel.text = "My Patients"
             cell.subtitleLabel.text = "Look in a list with all your patients"
             return cell
-        } else {
+        } else if indexPath.row == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath) as! BasicBigTableViewCell
             cell.contentView.backgroundColor = #colorLiteral(red: 0.9723386168, green: 0.5278795958, blue: 0.4031898975, alpha: 1)
             cell.titleLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -420,21 +515,40 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
             cell.subtitleLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
             cell.subtitleLabel.text = "Change your basic information"
             return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath) as! BasicBigTableViewCell
+            cell.contentView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.5478317863, blue: 0.869705798, alpha: 1)
+            cell.titleLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            cell.titleLabel.text = "My Calendar"
+            cell.subtitleLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            cell.subtitleLabel.text = "Check all your appointments"
+            return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 2 {
-            performSegue(withIdentifier: "showMyPatientsVC", sender: nil)
+            performSegue(withIdentifier: "showMyPatientsNC", sender: nil)
+            return
+        }
+        
+        if indexPath.row == 4 {
+            if let navigationController = storyboard?.instantiateViewController(withIdentifier: "calendarNV") as? UINavigationController {
+                if let viewController = navigationController.topViewController as? CalendarViewController {
+                    viewController.doctor = self.doctor
+                    navigationController.modalPresentationStyle = .fullScreen
+                    present(navigationController, animated: true)
+                }
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 2 || indexPath.row == 3 {
-            return 200.0
+        if indexPath.row < 2 {
+            return 450.0
         }
         
-        return 450.0
+        return 200.0
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -442,45 +556,16 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView.tag == 1 {
-            return 3
-        }
         return todayPatients.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        if let myUpcomingPatient = upcomingPatient {
-            if collectionView.tag == 1 {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InfoCell", for: indexPath) as! InformationCollectionViewCell
-                switch indexPath.row {
-                case 0:
-                    cell.descriptionLabel.text = "Age"
-                    cell.valueLabel.text = "\(myUpcomingPatient.age)"
-                case 1:
-                    cell.descriptionLabel.text = "Weight"
-                    cell.valueLabel.text = HealthKitService.shared.getFormated(measure: myUpcomingPatient.weightRecords.last?.weight ?? 0.0, on: .kilogram)
-                default:
-                    cell.descriptionLabel.text = "Height"
-                    cell.valueLabel.text = HealthKitService.shared.getFormated(measure: myUpcomingPatient.heightRecords.last?.height ?? 0.0, on: .meter)
-                }
-                return cell
-            }
-        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InfoCell", for: indexPath) as! InformationCollectionViewCell
-            return cell
-        }
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PatientCell", for: indexPath) as! PatientCollectionViewCell
         cell.patientName.text = todayPatients[indexPath.row].firstName
         cell.patientImageView.image = todayPatients[indexPath.row].profilePicture
+        
         return cell
     }
     
-    /*func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-     return UIEdgeInsets(top: 0, left: 100, bottom: 0, right: 0);
-     }*/
     
 }
-
-

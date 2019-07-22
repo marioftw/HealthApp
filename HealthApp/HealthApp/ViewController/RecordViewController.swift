@@ -7,20 +7,76 @@
 //
 
 import UIKit
+import Charts
 
 class RecordViewController: UIViewController {
-    
-    var records: [Record] = []
+    var records: [BasicRecord] = []
+    var myRecords: [AnyObject] = []
+    var mainColor: UIColor!
+    var mainIcon: UIImage!
+    var recordTitle: String!
+    let days = ["sun", "mon", "tue", "wed", "thur"]
+    var barChartView: BarChartView!
+    var patientName: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getRecords(number: 10)
+        self.title = "\(patientName ?? "")'s Records"
+        self.navigationController?.navigationBar.barStyle = .default
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: mainColor!]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: mainColor!]
+        createBasicRecords()
     }
     
-    func getRecords(number: Int) {
-        for _ in 0..<number {
-            let record = Record(record: "170 BPM", date: "Dec 16, 2019")
-            records.append(record)
+    func createChart(dataPoints: [String], values: [Double]) {
+        var dataEntries: [BarChartDataEntry] = []
+        for i in 0..<values.count {
+            let dataEntry = BarChartDataEntry(x: Double(i), y: Double(values[i]))
+            dataEntries.append(dataEntry)
+        }
+        let chartDataSet = BarChartDataSet(entries: dataEntries, label: "")
+        let chartData = BarChartData(dataSet: chartDataSet)
+        
+        barChartView.data = chartData
+        chartDataSet.colors = [#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)]
+        barChartView.leftAxis.enabled = false
+        barChartView.rightAxis.drawGridLinesEnabled = false
+        barChartView.legend.enabled = false
+        
+        
+        barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+    }
+    
+    func createBasicRecords() {
+        if let healthRecords = myRecords as? [HearthRecord] {
+            let sortedRecords = healthRecords.sorted(by: {$0.endDate > $1.endDate})
+            for hearthRecord in sortedRecords {
+                records.append(BasicRecord(record: "\(hearthRecord.bpm)", date: hearthRecord.endDate.formattedDate, data: Double(hearthRecord.bpm)))
+            }
+            return
+        }
+        
+        if let healthRecords = myRecords as? [WorkoutRecord] {
+            let sortedRecords = healthRecords.sorted(by: {$0.endDate > $1.endDate})
+            for workoutRecord in sortedRecords {
+                records.append(BasicRecord(record: "\(workoutRecord.calories.withoutDecimals)", date: workoutRecord.endDate.formattedDate, data: workoutRecord.calories))
+            }
+            return
+        }
+        
+        if let healthRecords = myRecords as? [SleepAnalisys] {
+            let sortedRecords = healthRecords.sorted(by: {$0.startDate > $1.startDate})
+            for sleepRecord in sortedRecords {
+                records.append(BasicRecord(record: "\(sleepRecord.hoursSleeping)", date: sleepRecord.startDate.formattedDate, data: Double(sleepRecord.hoursElapsed)))
+            }
+            return
+        }
+        
+        if let foods = myRecords as? [Food] {
+            let sortedRecords = foods.sorted(by: {$0.startDate > $1.startDate})
+            for food in sortedRecords {
+                records.append(BasicRecord(record: "\(food.name) - \(food.kilocalories.withoutDecimals) cal", date: food.startDate.formattedDate, data: food.kilocalories))
+            }
         }
     }
     
@@ -45,10 +101,20 @@ extension RecordViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
+            var data = [Double]()
             let cell = tableView.dequeueReusableCell(withIdentifier: "RecordMainCell", for: indexPath) as! RecordMainTableViewCell
-            cell.titleRecord.text = "Calories Burned"
-            cell.dateRecord.text = "Today, Dec 16"
-            cell.imageRecord.image = UIImage(named: "burn-icon")!
+            self.barChartView = cell.barChartView
+            let values = records.suffix(6)
+            
+            for value in values {
+                data.append(value.data)
+            }
+            
+            self.createChart(dataPoints: days, values: data)
+            cell.cardView.backgroundColor = mainColor
+            cell.titleRecord.text = recordTitle
+            cell.dateRecord.text = "Last Records"
+            cell.imageRecord.image = mainIcon
             return cell
         }
         
@@ -59,21 +125,11 @@ extension RecordViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        var height: CGFloat = 50.0
         if indexPath.section == 0 {
-            height = 300.0
+            return 300.0
+        } else {
+            return UITableView.automaticDimension
         }
-        return height
     }
     
-}
-
-struct Record {
-    var record = ""
-    var date = ""
-    
-    init(record: String, date: String) {
-        self.record = record
-        self.date = date
-    }
 }
