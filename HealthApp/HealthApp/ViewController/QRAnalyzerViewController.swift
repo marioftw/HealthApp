@@ -6,9 +6,8 @@ import RealmSwift
 class QRAnalyzerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
     @IBOutlet var videoPreview: UIView!
-    var doctorUID = String()
+    var patientUID = ""
     let realm = try? Realm()
-    var patient: Patient!
     var doctor: Doctor!
     
     enum error: Error {
@@ -35,38 +34,26 @@ class QRAnalyzerViewController: UIViewController, AVCaptureMetadataOutputObjects
     
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        /*if metadataObjects.count > 0 {
+        if metadataObjects.count > 0 {
             let machineReadeableCode = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
             if machineReadeableCode.type == AVMetadataObject.ObjectType.qr {
-                doctorUID = machineReadeableCode.stringValue!
-                DatabaseService.shared.doctorsRef.child(doctorUID).observeSingleEvent(of: .value) {
+                patientUID = machineReadeableCode.stringValue!
+                DatabaseService.shared.patientsRef.child(patientUID).observeSingleEvent(of: .value) {
                     (snapshot) in
-                    if let doctorDict = snapshot.value as? Dictionary<String, AnyObject> {
-                        if let firstName = doctorDict["firstName"] as? String,
-                            let lastName = doctorDict["lastName"] as? String,
-                            let address = doctorDict["address"] as? String,
-                            let phone = doctorDict["phone"] as? String,
-                            let email = doctorDict["email"] as? String,
-                            let specialty = doctorDict["specialty"] as? String
-                        {
+                    if let patientDict = snapshot.value as? Dictionary<String, AnyObject> {
+                        if let _ = patientDict["profile"] as? Dictionary<String, AnyObject> {
                             DispatchQueue.main.async {
-                                DatabaseService.shared.addDoctor(doctorUID: self.doctorUID, patientUID: self.patient!.uid)
-                                if self.realm?.object(ofType: Doctor.self, forPrimaryKey: self.doctorUID) == nil {
-                                    let localDoctor = Doctor(uid: self.doctorUID, firstName: firstName, lastName: lastName, direction: address, email: email, phone: phone, specialty: specialty, profilePicture: nil)
-                                    do {
-                                        try? self.realm?.write {
-                                            self.patient.doctors.append(localDoctor)
-                                        }
-                                    }
-                                }
+                                DatabaseService.shared.addPatient(doctorUID: self.doctor.uid, patientUID: self.patientUID)
+                                NotificationCenter.default.post(name: NSNotification.Name("UpdatePatientsTable"), object: nil)
+                                self.dismiss(animated: true)
                             }
-                            self.dismiss(animated: true)
                         }
-                    } // Can not build the dictionary, doctor doesn't exists
-                }
+                        
+                    } // Cannot create patient dict
+                } // Patient doesn't exists
                 
             } // Unable to create the reading object
-        }*/
+        }
     }
     
     func scanQRCode() throws {

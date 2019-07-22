@@ -55,6 +55,7 @@ class CreateAppointmentViewController: UIPageViewController {
         if storyboardIdentifier == "patientListVC" {
             let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: storyboardIdentifier) as! MyPatientsViewController
             viewController.isSelectionAllowed = true
+            viewController.doctor = self.doctor
             return viewController
         }
         

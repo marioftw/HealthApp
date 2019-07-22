@@ -17,7 +17,6 @@ class ViewController: UIViewController {
     var doctor: Doctor?
     var todayPatients = [Patient]()
     @IBOutlet var tableView: UITableView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setRefreshControl()
@@ -30,8 +29,6 @@ class ViewController: UIViewController {
         getPatientsUIDS()
         checkInCloudAppointments()
     }
-    
-    
     
     func setRefreshControl() {
         tableView.refreshControl = refreshControl
@@ -218,7 +215,7 @@ class ViewController: UIViewController {
                                         let myEndDate = endDate.createDate
                                     {
                                         DispatchQueue.main.async {
-                                            if self.realm?.object(ofType: SleepAnalisys.self, forPrimaryKey: "\(myStartDate)") == nil {
+                                            if self.realm?.object(ofType: SleepAnalisys.self, forPrimaryKey: "Doctor\(myStartDate)") == nil {
                                                 patientSleepRecords.append(SleepAnalisys(startDate: myStartDate, endDate: myEndDate))
                                             }
                                         }
@@ -234,7 +231,7 @@ class ViewController: UIViewController {
                                 let height = heightRecord.value as? Double
                             {
                                 DispatchQueue.main.async {
-                                    if self.realm?.object(ofType: Height.self, forPrimaryKey: "\(startDate)") == nil {
+                                    if self.realm?.object(ofType: Height.self, forPrimaryKey: "Doctor\(startDate)") == nil {
                                         patientHeightRecords.append(Height(height: height, startDate: startDate, endDate: Date()))
                                     }
                                 }
@@ -248,7 +245,7 @@ class ViewController: UIViewController {
                                 let bpm = hearthRecord.value as? Int
                             {
                                 DispatchQueue.main.async {
-                                    if self.realm?.object(ofType: HearthRecord.self, forPrimaryKey: startDate.iso8601) == nil {
+                                    if self.realm?.object(ofType: HearthRecord.self, forPrimaryKey: "Doctor\(startDate.iso8601)") == nil {
                                         patientHearthRecords.append(HearthRecord(bpm: bpm, startDate: startDate, endDate: Date()))
                                     }
                                 }
@@ -262,7 +259,7 @@ class ViewController: UIViewController {
                                 let weight = weightRecord.value as? Double
                             {
                                 DispatchQueue.main.async {
-                                    if self.realm?.object(ofType: Weight.self, forPrimaryKey: "\(startDate)") == nil {
+                                    if self.realm?.object(ofType: Weight.self, forPrimaryKey: "Doctor\(startDate)") == nil {
                                         patientWeightRecords.append(Weight(weight: weight, startDate: startDate, endDate: Date()))
                                     }
                                 }
@@ -276,7 +273,7 @@ class ViewController: UIViewController {
                                 let calories = workoutRecord.value as? Double
                             {
                                 DispatchQueue.main.async {
-                                    if self.realm?.object(ofType: WorkoutRecord.self, forPrimaryKey: "\(startDate)") == nil {
+                                    if self.realm?.object(ofType: WorkoutRecord.self, forPrimaryKey: "Doctor\(startDate)") == nil {
                                         patientWorkoutsRecords.append(WorkoutRecord(startDate: startDate, endDate: Date(), caloriesBurned: calories))
                                     }
                                 }
@@ -292,7 +289,7 @@ class ViewController: UIViewController {
                                     let name = food["name"] as? String
                                 {
                                     DispatchQueue.main.async {
-                                        if self.realm?.object(ofType: Food.self, forPrimaryKey: "\(startDate)") == nil {
+                                        if self.realm?.object(ofType: Food.self, forPrimaryKey: "Doctor\(startDate)") == nil {
                                             patientIngestedFoodsRecords.append(Food(kilocalories: calories, name: name, startDate: startDate, endDate: Date()))
                                         }
                                     }
@@ -416,6 +413,7 @@ class ViewController: UIViewController {
                             let myEndDate = endDate.createDate {
                             let notes = appointmentDict["notes"] as? String
                             DispatchQueue.main.async {
+                                print(uid)
                                 if self.realm?.object(ofType: Appointment.self, forPrimaryKey: uid) == nil {
                                    let appointment = Appointment(startDate: myStartDate, endDate: myEndDate, doctorUid: self.doctor!.uid, patientUid: patientUID, notes: notes)
                                     do {
@@ -460,10 +458,17 @@ class ViewController: UIViewController {
         if segue.identifier == "showMyPatientsNC" {
                 if let viewController = navigationController.topViewController as? MyPatientsViewController {
                     viewController.patients = Array<Patient>(self.doctor?.patients ?? List<Patient>())
+                    viewController.doctor = self.doctor
                 }
         } else if segue.identifier == "showPatientNC" {
             if let viewController = navigationController.topViewController as? PatientProfileViewController {
                 viewController.patient = self.todayPatients.first
+            }
+        } else if segue.identifier == "showEditProfileNC" {
+            if let navigationController = segue.destination as? UINavigationController {
+                if let viewController = navigationController.topViewController as? EditProfileViewController {
+                    viewController.doctor = self.doctor
+                }
             }
         }
     }
@@ -476,7 +481,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -515,13 +520,21 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
             cell.subtitleLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
             cell.subtitleLabel.text = "Change your basic information"
             return cell
-        } else {
+        } else if indexPath.row == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath) as! BasicBigTableViewCell
             cell.contentView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.5478317863, blue: 0.869705798, alpha: 1)
             cell.titleLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             cell.titleLabel.text = "My Calendar"
             cell.subtitleLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
             cell.subtitleLabel.text = "Check all your appointments"
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath) as! BasicBigTableViewCell
+            cell.contentView.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+            cell.titleLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            cell.titleLabel.text = "Nevus Analyzer"
+            cell.subtitleLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            cell.subtitleLabel.text = "Nevu's phatology scanner"
             return cell
         }
     }
@@ -532,13 +545,25 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
             return
         }
         
+        if indexPath.row == 3 {
+            performSegue(withIdentifier: "showEditProfileNC", sender: nil)
+            return
+        }
+        
         if indexPath.row == 4 {
             if let navigationController = storyboard?.instantiateViewController(withIdentifier: "calendarNV") as? UINavigationController {
                 if let viewController = navigationController.topViewController as? CalendarViewController {
                     viewController.doctor = self.doctor
                     navigationController.modalPresentationStyle = .fullScreen
                     present(navigationController, animated: true)
+                    return
                 }
+            }
+        }
+        
+        if indexPath.row == 5 {
+            if let viewController = storyboard?.instantiateViewController(withIdentifier: "VisualRecognizerVC") {
+                present(viewController, animated: true)
             }
         }
     }

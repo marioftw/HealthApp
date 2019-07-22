@@ -73,17 +73,17 @@ class DatabaseService {
     }
     
     func addDoctor(doctorUID: String, patientUID: String) {
-        self.patientsRef.child(patientUID).child("doctors").child(doctorUID).setValue(doctorUID)
-        self.addPatient(doctorUID: doctorUID, userUID: patientUID)
+        self.patientsRef.child(patientUID).child("doctors").child(doctorUID).child("removed").setValue(false)
     }
     
-    func addPatient(doctorUID: String, userUID: String) {
-        self.doctorsRef.child(doctorUID).child("patients").child(userUID).setValue(userUID)
+    func addPatient(doctorUID: String, patientUID: String) {
+        self.doctorsRef.child(doctorUID).child("patients").child(patientUID).child("removed").setValue(false)
+        self.addDoctor(doctorUID: doctorUID, patientUID: patientUID)
     }
     
     func removePatientWith(uid: String, doctorUID: String) {
         self.doctorsRef.child(doctorUID).child("patients").child(uid).child("removed").setValue(true)
-        self.patientsRef.child(uid).child("patients").child(uid).child("removed").setValue(true)
+        self.patientsRef.child(uid).child("patients").child(doctorUID).child("removed").setValue(true)
     }
     
     func remove(appointmentUID: String, patientUID: String, doctorUID: String) {
@@ -92,61 +92,24 @@ class DatabaseService {
         self.doctorsRef.child(doctorUID).child("appointments").child(appointmentUID).child("removed").setValue(true)
     }
     
-    func saveBasicInfoInFirebase(patient: Patient) {
-        let firstName = patient.firstName
-        let lastName = patient.lastName
-        let email = patient.email
+    func saveBasicInfoInFirebase(doctor: Doctor) {
+        let firstName = doctor.firstName
+        let lastName = doctor.lastName
+        let email = doctor.email
+        let address = doctor.direction
+        let phone = doctor.phone
+        let speciality = doctor.specialty
+        
         let dictionary: [String: AnyObject] = [
             "firstName": firstName as AnyObject,
             "lastName": lastName as AnyObject,
-            "email": email as AnyObject
+            "email": email as AnyObject,
+            "address": address as AnyObject,
+            "phone": phone as AnyObject,
+            "speciality": speciality as AnyObject
         ]
-        self.mainRef.child(FIR_CHILD_PATIENTS).child("\(patient.uid)/profile/basicData/").setValue(dictionary)
-    }
-    
-    func saveHealthDataInFirebase(patient: Patient) {
-        let age = patient.age
-        let bloodType = patient.bloodType
-        let biologicalSex = patient.biologicalSex
         
-        let dictionary: [String: AnyObject] = [
-                "bloodType": bloodType as AnyObject,
-                "biologicalSex": biologicalSex as AnyObject,
-                "age": age as AnyObject
-        ]
-        self.mainRef.child(FIR_CHILD_PATIENTS).child("\(patient.uid)/profile/healthData/").setValue(dictionary)
-        
-        for heightRecord in patient.heightRecords {
-            self.mainRef.child("\(FIR_CHILD_PATIENTS)/\(patient.uid)/heightRecords/").child("\(heightRecord.startDate)").setValue(heightRecord.height)
-        }
-        
-        for weightRecord in patient.weightRecords {
-            self.mainRef.child("\(FIR_CHILD_PATIENTS)/\(patient.uid)/weightRecords/").child("\(weightRecord.startDate)").setValue(weightRecord.weight)
-        }
-        
-        for sleepRecord in patient.sleepRecords {
-            let sleepDict: [String: AnyObject] = [
-                "startDate": "\(sleepRecord.startDate)" as AnyObject,
-                "endDate": "\(sleepRecord.endDate)" as AnyObject
-            ]
-            self.mainRef.child("\(FIR_CHILD_PATIENTS)/\(patient.uid)/sleepRecords/").child("\(sleepRecord.startDate)").setValue(sleepDict)
-        }
-        
-        for workout in patient.workoutRecords {
-            self.mainRef.child("\(FIR_CHILD_PATIENTS)/\(patient.uid)/workoutRecords/").child("\(workout.startDate)").setValue(workout.calories)
-        }
-        
-        for foodRecord in patient.ingestedFoods {
-            let foodDict: [String: AnyObject] = [
-                "name": foodRecord.name as AnyObject,
-                "calories": "\(foodRecord.kilocalories)" as AnyObject
-            ]
-            self.mainRef.child("\(FIR_CHILD_PATIENTS)/\(patient.uid)/ingestedFoodRecords/").child("\(foodRecord.startDate)").setValue(foodDict)
-        }
-        
-        for hearthRecord in patient.hearthRecords {
-            self.mainRef.child("\(FIR_CHILD_PATIENTS)/\(patient.uid)/hearthRecords/").child("\(hearthRecord.startDate)").setValue(hearthRecord.bpm)
-        }
+        self.doctorsRef.child("\(doctor.uid)").setValue(dictionary)
     }
 }
 

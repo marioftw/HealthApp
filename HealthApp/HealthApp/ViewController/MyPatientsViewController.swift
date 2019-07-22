@@ -8,10 +8,12 @@
 
 import UIKit
 import RealmSwift
+import FirebaseStorage
 import FloatingPanel
 
 class MyPatientsViewController: UIViewController {
     
+    private let refreshControl = UIRefreshControl()
     var patients: [Patient]?
     var doctor: Doctor?
     var selectedPatient: Patient!
@@ -23,13 +25,23 @@ class MyPatientsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let uid = AuthService.shared.fireabseAuth.currentUser?.uid else { return }
-        guard let localDoctor = realm?.object(ofType: Doctor.self, forPrimaryKey: uid) else { return }
-        self.doctor = localDoctor
+        if let navigationController = self.parent as? CreateAppointmentViewController {
+            self.doctor = navigationController.doctor
+        }
         tableView.allowsMultipleSelection = false
         self.navigationController?.navigationBar.setMinimal()
+        NotificationCenter.default.addObserver(self, selector: #selector(getPatientsUIDS), name: Notification.Name("UpdatePatientsTable"), object: nil)
+        getPatientsUIDS()
+        setRefreshControl()
         createPanel()
         // Do any additional setup after loading the view.
+    }
+    
+    func setRefreshControl() {
+        tableView.refreshControl = refreshControl
+        refreshControl.tintColor = UIColor.black
+        refreshControl.attributedTitle = NSAttributedString(string: "Fetching User Data ...", attributes: nil)
+        refreshControl.addTarget(self, action: #selector(getPatientsUIDS), for: .valueChanged)
     }
     
     @IBAction func dondeButtonPressed(_ sender: UIBarButtonItem) {
@@ -44,7 +56,7 @@ class MyPatientsViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "Scan PatientID", style: .default, handler: { (action) in
             if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "QRAnalyzerVC") as? QRAnalyzerViewController {
-                //viewController.patient = self.doctor
+                viewController.doctor = self.doctor
                 self.present(viewController, animated: true)
                 return
             }
@@ -74,6 +86,241 @@ class MyPatientsViewController: UIViewController {
         fpc.set(contentViewController: QRVC)
         fpc.addPanel(toParent: self, belowView: nil, animated: false)
         fpc.hide()
+    }
+    
+    @objc func getPatientsUIDS() {
+        guard let doctorUID = doctor?.uid else { return }
+        var uids = [String]()
+        DatabaseService.shared.doctorsRef.child(doctorUID).child("patients").observeSingleEvent(of: .value) { (snapshot) in
+            if let patientsUID = snapshot.value as? Dictionary<String, AnyObject> {
+                for patientUID in patientsUID {
+                    if let removed = patientUID.value["removed"] as? Bool {
+                        if removed {
+                            DispatchQueue.main.async {
+                                self.doctor?.removePatientWith(uid: patientUID.key)
+                                self.tableView.reloadData()
+                            }
+                        } else {
+                            uids.append(patientUID.key)
+                        }
+                    }
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.downloadPatients(uids: uids)
+            }
+        }
+    }
+    
+    func downloadPatients(uids: [String]) {
+        for uid in uids {
+            var patient: Patient?
+            var patientFirstName = ""
+            var patientLastName = ""
+            var patientEmail = ""
+            var patientBiologicalSex = ""
+            var patientAge = 0
+            var patientBloodType = ""
+            var profileImageURL = ""
+            let patientHearthRecords        = List<HearthRecord>()
+            let patientHeightRecords        = List<Height>()
+            let patientWeightRecords        = List<Weight>()
+            let patientIngestedFoodsRecords = List<Food>()
+            let patientWorkoutsRecords      = List<WorkoutRecord>()
+            let patientSleepRecords         = List<SleepAnalisys>()
+            DatabaseService.shared.patientsRef.child(uid).observeSingleEvent(of: .value) { (snapshot) in
+                if let patientDict = snapshot.value as? Dictionary<String, AnyObject> {
+                    if let profile = patientDict["profile"] as? Dictionary<String, AnyObject> {
+                        if let profilePicture = profile["profilePicture"] as? Dictionary<String, AnyObject> {
+                            if let profileURL = profilePicture["profilePictureURL"] as? String {
+                                profileImageURL = profileURL
+                            }
+                        }
+                        
+                        if let basicData = profile["basicData"] as? Dictionary<String, AnyObject> {
+                            if let email = basicData["email"] as? String,
+                                let firstName = basicData["firstName"] as? String,
+                                let lastName = basicData["lastName"] as? String
+                            {
+                                patientFirstName = firstName
+                                patientLastName = lastName
+                                patientEmail = email
+                            }
+                        }
+                        
+                        if let healthData = profile["healthData"] as? Dictionary<String, AnyObject> {
+                            if let age = healthData["age"] as? Int,
+                                let biologicalSex = healthData["biologicalSex"] as? String,
+                                let bloodType = healthData["bloodType"] as? String {
+                                patientBiologicalSex = biologicalSex
+                                patientAge = age
+                                patientBloodType = bloodType
+                            }
+                        }
+                    }
+                    
+                    if let sleepRecords = patientDict["sleepRecords"] as? Dictionary<String, AnyObject> {
+                        for sleepRecord in sleepRecords {
+                            if let record = sleepRecords[sleepRecord.key] as? Dictionary<String, AnyObject> {
+                                if let startDate = record["startDate"] as? String,
+                                    let endDate = record["endDate"] as? String {
+                                    if let myStartDate = startDate.createDate,
+                                        let myEndDate = endDate.createDate
+                                    {
+                                        DispatchQueue.main.async {
+                                            if self.realm?.object(ofType: SleepAnalisys.self, forPrimaryKey: "Doctor\(myStartDate)") == nil {
+                                                print("Agregando récrod: \(myStartDate.formattedDate)")
+                                                patientSleepRecords.append(SleepAnalisys(startDate: myStartDate, endDate: myEndDate))
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if let heightRecords = patientDict["heightRecords"] as? Dictionary<String, AnyObject> {
+                        for heightRecord in heightRecords {
+                            if let startDate = heightRecord.key.createDate,
+                                let height = heightRecord.value as? Double
+                            {
+                                DispatchQueue.main.async {
+                                    if self.realm?.object(ofType: Height.self, forPrimaryKey: "Doctor\(startDate)") == nil {
+                                        patientHeightRecords.append(Height(height: height, startDate: startDate, endDate: Date()))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if let heartRecords = patientDict["hearthRecords"] as? Dictionary<String, AnyObject> {
+                        for hearthRecord in heartRecords {
+                            if let startDate = hearthRecord.key.createDate,
+                                let bpm = hearthRecord.value as? Int
+                            {
+                                DispatchQueue.main.async {
+                                    if self.realm?.object(ofType: HearthRecord.self, forPrimaryKey: "Doctor\(startDate.iso8601)") == nil {
+                                        patientHearthRecords.append(HearthRecord(bpm: bpm, startDate: startDate, endDate: Date()))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if let weightRecords = patientDict["weightRecords"] as? Dictionary<String, AnyObject> {
+                        for weightRecord in weightRecords {
+                            if let startDate = weightRecord.key.createDate,
+                                let weight = weightRecord.value as? Double
+                            {
+                                DispatchQueue.main.async {
+                                    if self.realm?.object(ofType: Weight.self, forPrimaryKey: "Doctor\(startDate)") == nil {
+                                        patientWeightRecords.append(Weight(weight: weight, startDate: startDate, endDate: Date()))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if let workoutsRecords = patientDict["workoutRecords"] as? Dictionary<String, AnyObject> {
+                        for workoutRecord in workoutsRecords {
+                            if let startDate = workoutRecord.key.createDate,
+                                let calories = workoutRecord.value as? Double
+                            {
+                                DispatchQueue.main.async {
+                                    if self.realm?.object(ofType: WorkoutRecord.self, forPrimaryKey: "Doctor\(startDate)") == nil {
+                                        patientWorkoutsRecords.append(WorkoutRecord(startDate: startDate, endDate: Date(), caloriesBurned: calories))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if let ingestedFoods = patientDict["ingestedFoodRecords"] as? Dictionary<String, AnyObject> {
+                        for ingestedFood in ingestedFoods {
+                            if let food = ingestedFoods[ingestedFood.key] as? Dictionary<String, AnyObject> {
+                                if let startDate = ingestedFood.key.createDate,
+                                    let calories = food["calories"] as? Double,
+                                    let name = food["name"] as? String
+                                {
+                                    DispatchQueue.main.async {
+                                        if self.realm?.object(ofType: Food.self, forPrimaryKey: "Doctor\(startDate)") == nil {
+                                            patientIngestedFoodsRecords.append(Food(kilocalories: calories, name: name, startDate: startDate, endDate: Date()))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    DispatchQueue.main.async {
+                        if let myPatient = self.realm?.object(ofType: Patient.self, forPrimaryKey: uid) {
+                            patient = myPatient
+                            do {
+                                try self.realm?.write {
+                                    patient?.firstName = patientFirstName
+                                    patient?.lastName = patientLastName
+                                    patient?.email = patientEmail
+                                    patient?.biologicalSex = patientBiologicalSex
+                                    patient?.age = patientAge
+                                    patient?.bloodType = patientBloodType
+                                    
+                                    patient?.hearthRecords.append(objectsIn: patientHearthRecords)
+                                    patient?.heightRecords.append(objectsIn: patientHeightRecords)
+                                    patient?.weightRecords.append(objectsIn: patientWeightRecords)
+                                    patient?.sleepRecords.append(objectsIn: patientSleepRecords)
+                                    patient?.workoutRecords.append(objectsIn: patientWorkoutsRecords)
+                                    patient?.ingestedFoods.append(objectsIn: patientIngestedFoodsRecords)
+                                }
+                            } catch {
+                                print("Error: \(error.localizedDescription)")
+                            }
+                        } else {
+                            patient = Patient(uid: uid, age: patientAge, firstName: patientFirstName, lastName: patientLastName, bloodType: patientBloodType, bilogicalSex: patientBiologicalSex, email: patientEmail)
+                            do {
+                                try self.realm?.write {
+                                    patient?.hearthRecords.append(objectsIn: patientHearthRecords)
+                                    patient?.heightRecords.append(objectsIn: patientHeightRecords)
+                                    patient?.weightRecords.append(objectsIn: patientWeightRecords)
+                                    patient?.sleepRecords.append(objectsIn: patientSleepRecords)
+                                    patient?.workoutRecords.append(objectsIn: patientWorkoutsRecords)
+                                    patient?.ingestedFoods.append(objectsIn: patientIngestedFoodsRecords)
+                                    self.doctor?.patients.append(patient!)
+                                }
+                            } catch {
+                                print("Error: \(error.localizedDescription)")
+                            }
+                        }
+                        DispatchQueue.main.async {
+                            self.downloadPatientProfieImage(imageURL: profileImageURL, patient: patient!)
+                        }
+                    }
+                }
+            }
+        }
+        self.refreshControl.endRefreshing()
+    }
+    
+    func downloadPatientProfieImage(imageURL: String, patient: Patient) {
+        if imageURL != "" {
+            let httpRef = Storage.storage().reference(forURL: imageURL)
+            httpRef.getData(maxSize: 15*1024*1024, completion: { (data, error) in
+                if error != nil {
+                    print("Error al descargar la imagen: \(String(describing: error?.localizedDescription))")
+                } else {
+                    do {
+                        try self.realm?.write {
+                            patient.dataProfilePicture = data
+                        }
+                    } catch {
+                        print("No se pudo poner la imagen")
+                    }
+                    
+                }
+                self.refreshControl.endRefreshing()
+                self.tableView.reloadData()
+            })
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

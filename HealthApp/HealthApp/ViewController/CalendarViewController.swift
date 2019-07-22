@@ -31,17 +31,11 @@ class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let localDoctor = realm?.object(ofType: Doctor.self, forPrimaryKey: AuthService.shared.fireabseAuth.currentUser?.uid) {
-            self.doctor = localDoctor
-        }
-        
         tableView.refreshControl = refreshControl
         refreshControl.tintColor = UIColor.darkGray
         refreshControl.attributedTitle = NSAttributedString(string: "Fetching Appointments ...", attributes: nil)
         refreshControl.addTarget(self, action: #selector(checkInCloudAppointments), for: .valueChanged)
         NotificationCenter.default.addObserver(self, selector: #selector(checkInCloudAppointments), name: Notification.Name("UpdateAppointmentsTable"), object: nil)
-
         
         appointmentsOfDate = getAppointmentsFor(date: calendarView.selectedDates.last ?? Date())
         checkInCloudAppointments()
@@ -140,6 +134,7 @@ class CalendarViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showCreateAppointmentPC" {
             if let pageViewController = segue.destination as? CreateAppointmentViewController {
+                pageViewController.doctor = self.doctor
                 pageViewController.selectedDate = self.calendarView.selectedDates.last
             }
         } else if segue.identifier == "showAppointmentVC" {
@@ -152,8 +147,7 @@ class CalendarViewController: UIViewController {
     
 }
 
-extension CalendarViewController: JTACMonthViewDataSource {
-    
+extension CalendarViewController: JTACMonthViewDelegate, JTACMonthViewDataSource {
     func configureCalendar(_ calendar: JTACMonthView) -> ConfigurationParameters {
         formatter.dateFormat = "yyyy MM dd"
         formatter.timeZone = Calendar.current.timeZone
@@ -172,9 +166,7 @@ extension CalendarViewController: JTACMonthViewDataSource {
         parameters = ConfigurationParameters(startDate: startDate, endDate: endDate, numberOfRows: 1)
         return parameters
     }
-}
-
-extension CalendarViewController: JTACMonthViewDelegate {
+    
     func calendar(_ calendar: JTACMonthView, willDisplay cell: JTACDayCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CalendarDayCell", for: indexPath) as! CalendarDayCell
         cell.dateLabel.text = cellState.text
@@ -193,14 +185,14 @@ extension CalendarViewController: JTACMonthViewDelegate {
         return cell
     }
     
-    func calendar(_ calendar: JTACMonthView, didSelectDate date: Date, cell: JTACDayCell?, cellState: CellState) {
+    func calendar(_ calendar: JTACMonthView, didSelectDate date: Date, cell: JTACDayCell?, cellState: CellState, indexPath: IndexPath) {
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
         appointmentsOfDate = getAppointmentsFor(date: date)
         tableView.reloadData()
     }
     
-    func calendar(_ calendar: JTACMonthView, didDeselectDate date: Date, cell: JTACDayCell?, cellState: CellState) {
+    func calendar(_ calendar: JTACMonthView, didDeselectDate date: Date, cell: JTACDayCell?, cellState: CellState, indexPath: IndexPath) {
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
     }

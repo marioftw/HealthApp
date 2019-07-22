@@ -148,4 +148,8 @@ class Doctor: Object {
             print("Error deleting: \(error.localizedDescription)")
         }
     }
+    
+    func saveBasicInfoInFirebase() {
+        DatabaseService.shared.saveBasicInfoInFirebase(doctor: self)
+    }
 }

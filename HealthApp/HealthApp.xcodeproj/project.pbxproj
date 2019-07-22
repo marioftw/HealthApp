@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		715156505A33D20DCE6075AD /* Pods_HealthApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68DCA791CD6C0E23CD2AFD43 /* Pods_HealthApp.framework */; };
+		B315DFCB22E659F9005536AD /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315DFCA22E659F9005536AD /* EditProfileTableViewController.swift */; };
+		B315DFD422E6648A005536AD /* PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315DFCD22E6648A005536AD /* PulleyViewController.swift */; };
+		B315DFD522E6648A005536AD /* Nevus.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = B315DFCE22E6648A005536AD /* Nevus.mlmodel */; };
+		B315DFD622E6648A005536AD /* PulleyPassthroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315DFCF22E6648A005536AD /* PulleyPassthroughScrollView.swift */; };
+		B315DFD722E6648A005536AD /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315DFD022E6648A005536AD /* CameraViewController.swift */; };
+		B315DFD822E6648A005536AD /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315DFD122E6648A005536AD /* ResultTableViewCell.swift */; };
+		B315DFD922E6648A005536AD /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315DFD222E6648A005536AD /* ProgressBar.swift */; };
+		B315DFDA22E6648A005536AD /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315DFD322E6648A005536AD /* ResultsTableViewController.swift */; };
 		B32B68E122E3E630005BE762 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B32B68E022E3E630005BE762 /* GoogleService-Info.plist */; };
 		B32B68E522E3EF0F005BE762 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32B68E222E3EF06005BE762 /* RegisterViewController.swift */; };
 		B32B68E622E3EF0F005BE762 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32B68E322E3EF0A005BE762 /* LoginViewController.swift */; };
@@ -66,6 +74,14 @@
 /* Begin PBXFileReference section */
 		126C07DDDCCE2DD740B00D61 /* Pods-HealthApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HealthApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-HealthApp/Pods-HealthApp.release.xcconfig"; sourceTree = "<group>"; };
 		68DCA791CD6C0E23CD2AFD43 /* Pods_HealthApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HealthApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B315DFCA22E659F9005536AD /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
+		B315DFCD22E6648A005536AD /* PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyViewController.swift; sourceTree = "<group>"; };
+		B315DFCE22E6648A005536AD /* Nevus.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Nevus.mlmodel; sourceTree = "<group>"; };
+		B315DFCF22E6648A005536AD /* PulleyPassthroughScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyPassthroughScrollView.swift; sourceTree = "<group>"; };
+		B315DFD022E6648A005536AD /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		B315DFD122E6648A005536AD /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
+		B315DFD222E6648A005536AD /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		B315DFD322E6648A005536AD /* ResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsTableViewController.swift; sourceTree = "<group>"; };
 		B32B68E022E3E630005BE762 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B32B68E222E3EF06005BE762 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		B32B68E322E3EF0A005BE762 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -153,6 +169,20 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B315DFCC22E6648A005536AD /* Visual Recognizer */ = {
+			isa = PBXGroup;
+			children = (
+				B315DFCD22E6648A005536AD /* PulleyViewController.swift */,
+				B315DFCE22E6648A005536AD /* Nevus.mlmodel */,
+				B315DFCF22E6648A005536AD /* PulleyPassthroughScrollView.swift */,
+				B315DFD022E6648A005536AD /* CameraViewController.swift */,
+				B315DFD122E6648A005536AD /* ResultTableViewCell.swift */,
+				B315DFD222E6648A005536AD /* ProgressBar.swift */,
+				B315DFD322E6648A005536AD /* ResultsTableViewController.swift */,
+			);
+			path = "Visual Recognizer";
+			sourceTree = "<group>";
+		};
 		B32B68E822E3EF95005BE762 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +234,7 @@
 		B341EE1922D43E21002F96BC /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B315DFCC22E6648A005536AD /* Visual Recognizer */,
 				B3BD761B22D3BD7100B9A9E9 /* ViewController.swift */,
 				B32B68E422E3EF0E005BE762 /* InitialViewController.swift */,
 				B32B68E322E3EF0A005BE762 /* LoginViewController.swift */,
@@ -216,6 +247,7 @@
 				B364777C22E5793E00B3FA9B /* SaveAppointmentViewController.swift */,
 				B3ECEBA122D508B20070A5FE /* AppointmentViewController.swift */,
 				B364777E22E5799100B3FA9B /* CreateAppointmentViewController.swift */,
+				B315DFCA22E659F9005536AD /* EditProfileTableViewController.swift */,
 				B364778122E58EEB00B3FA9B /* QRAnalyzerViewController.swift */,
 				B364778022E58EEB00B3FA9B /* QRViewController.swift */,
 			);
@@ -392,6 +424,9 @@
 				B32B690522E3EF95005BE762 /* Patient.swift in Sources */,
 				B32B690822E3EF95005BE762 /* ProfileTableViewCell.swift in Sources */,
 				B3BD762E22D3C62500B9A9E9 /* MainPageViewController.swift in Sources */,
+				B315DFD422E6648A005536AD /* PulleyViewController.swift in Sources */,
+				B315DFD922E6648A005536AD /* ProgressBar.swift in Sources */,
+				B315DFD522E6648A005536AD /* Nevus.mlmodel in Sources */,
 				B364777D22E5793E00B3FA9B /* SaveAppointmentViewController.swift in Sources */,
 				B364778322E58EEC00B3FA9B /* QRAnalyzerViewController.swift in Sources */,
 				B32B690C22E3EF95005BE762 /* CardTableViewCell.swift in Sources */,
@@ -402,6 +437,7 @@
 				B32B691922E3EF95005BE762 /* TextFieldTableViewCell.swift in Sources */,
 				B32B690E22E3EF95005BE762 /* AppointmentTableViewCell.swift in Sources */,
 				B32B691A22E3EF95005BE762 /* AuthService.swift in Sources */,
+				B315DFD722E6648A005536AD /* CameraViewController.swift in Sources */,
 				B32B691322E3EF95005BE762 /* IngredientTableViewCell.swift in Sources */,
 				B341EE1522D432BD002F96BC /* MyPatientsViewController.swift in Sources */,
 				B341EE1722D432D0002F96BC /* PatientTableViewCell.swift in Sources */,
@@ -415,11 +451,14 @@
 				B32B692122E3F366005BE762 /* NoteTableViewCell.swift in Sources */,
 				B364777F22E5799100B3FA9B /* CreateAppointmentViewController.swift in Sources */,
 				B3BD761C22D3BD7100B9A9E9 /* ViewController.swift in Sources */,
+				B315DFD622E6648A005536AD /* PulleyPassthroughScrollView.swift in Sources */,
 				B3BD763622D3D8BD00B9A9E9 /* InformationTableViewCell.swift in Sources */,
+				B315DFD822E6648A005536AD /* ResultTableViewCell.swift in Sources */,
 				B3BD763222D3C6D300B9A9E9 /* PatientCollectionViewCell.swift in Sources */,
 				B32B690422E3EF95005BE762 /* Doctor.swift in Sources */,
 				B32B68E622E3EF0F005BE762 /* LoginViewController.swift in Sources */,
 				B32B690A22E3EF95005BE762 /* ButtonCardTableViewCell.swift in Sources */,
+				B315DFCB22E659F9005536AD /* EditProfileTableViewController.swift in Sources */,
 				B3F4361222D42F1E00036EEC /* BasicBigTableViewCell.swift in Sources */,
 				B32B691822E3EF95005BE762 /* TableItemCardTableViewCell.swift in Sources */,
 				B3BD763822D3E74B00B9A9E9 /* PatientProfileViewController.swift in Sources */,
@@ -428,6 +467,7 @@
 				B32B690922E3EF95005BE762 /* PlaceholderTableViewCell.swift in Sources */,
 				B32B690622E3EF95005BE762 /* Appointment.swift in Sources */,
 				B3BD762C22D3C4CC00B9A9E9 /* Util.swift in Sources */,
+				B315DFDA22E6648A005536AD /* ResultsTableViewController.swift in Sources */,
 				B32B691622E3EF95005BE762 /* CloseTableViewCell.swift in Sources */,
 				B3BD761A22D3BD7100B9A9E9 /* AppDelegate.swift in Sources */,
 				B341EE1D22D43F8C002F96BC /* RecordViewController.swift in Sources */,

@@ -24,7 +24,7 @@ class HearthRecord: Object {
         self._bpm = bpm
         self._startDate = startDate
         self._endDate = endDate
-        self._ID = _startDate.iso8601
+        self._ID = "Doctor\(_startDate.iso8601)"
     }
     
     var bpm:        Int  { return _bpm       }
@@ -48,7 +48,7 @@ class WorkoutRecord: Object {
         self._startDate = startDate
         self._endDate = endDate
         self._caloriesBurned = caloriesBurned
-        self._ID = "\(_startDate)"
+        self._ID = "Doctor\(_startDate)"
     }
     
     var time:       String { return _endDate.offsetFrom(date: _startDate, dateTerm: .short) }
@@ -71,7 +71,7 @@ class SleepAnalisys: Object {
         self.init()
         self._startDate = startDate
         self._endDate = endDate
-        self._ID = "\(_startDate)"
+        self._ID = "Doctor\(_startDate)"
     }
     
     var hoursSleeping:  String { return _endDate.offsetFrom(date: _startDate, dateTerm: .short) }
@@ -95,7 +95,7 @@ class Height: Object {
         self._height = height
         self._startDate = startDate
         self._endDate = endDate
-        self._ID = "\(_startDate)"
+        self._ID = "Doctor\(_startDate)"
     }
     
     var height: Double  { return _height }
@@ -117,7 +117,7 @@ class Weight: Object {
         self._weight = weight
         self._startDate = startDate
         self._endDate = endDate
-        self._ID = "\(_startDate)"
+        self._ID = "Doctor\(_startDate)"
     }
     
     var weight:     Double { return _weight }
@@ -141,7 +141,7 @@ class Food: Object {
         self._kilocalories = kilocalories
         self._startDate = startDate
         self._endDate = endDate
-        self._ID = "\(_startDate)"
+        self._ID = "Doctor\(_startDate)"
     }
     
     var name:        String  { return _name         }
