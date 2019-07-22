@@ -534,7 +534,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, UICollecti
             cell.titleLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             cell.titleLabel.text = "Nevus Analyzer"
             cell.subtitleLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-            cell.subtitleLabel.text = "Nevu's phatology scanner"
+            cell.subtitleLabel.text = "Nevus' pathology scanner"
             return cell
         }
     }

@@ -109,10 +109,10 @@ The app was manually translated to
 
 ## Some Screenshots
 
-| ![alt text](https://user-images.githubusercontent.com/42153044/61612753-05a55700-ac25-11e9-9221-c9a1ebdfe952.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61612754-05a55700-ac25-11e9-9b91-c9f7ae23302c.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61612752-050cc080-ac25-11e9-9933-69e57f29ac11.png) |
+| ![alt text](https://user-images.githubusercontent.com/42153044/61669020-42646300-aca4-11e9-913d-cfaec5f3995a.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61669021-42646300-aca4-11e9-9d06-1979d86de7e4.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61612754-05a55700-ac25-11e9-9b91-c9f7ae23302c.png) |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| ![alt text](https://user-images.githubusercontent.com/42153044/61612755-05a55700-ac25-11e9-94c7-d0a036becf06.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61612756-05a55700-ac25-11e9-9545-7faffd2887c8.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61612757-05a55700-ac25-11e9-9220-96a1bbbff892.png) |
-| ![alt text](https://user-images.githubusercontent.com/42153044/61612751-050cc080-ac25-11e9-9a5e-f558d0e32608.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61612750-050cc080-ac25-11e9-8c4c-62f45bb354c1.png) |                                                              |
+| ![alt text](https://user-images.githubusercontent.com/42153044/61612752-050cc080-ac25-11e9-9933-69e57f29ac11.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61612755-05a55700-ac25-11e9-94c7-d0a036becf06.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61612756-05a55700-ac25-11e9-9545-7faffd2887c8.png) |
+| ![alt text](https://user-images.githubusercontent.com/42153044/61612757-05a55700-ac25-11e9-9220-96a1bbbff892.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61669022-42646300-aca4-11e9-9f7d-02d5ddcebc3b.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61669019-42646300-aca4-11e9-8a61-3fdbf7e19eae.png) |
 
 
 ## Changelog
