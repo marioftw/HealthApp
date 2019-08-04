@@ -4,7 +4,11 @@ HealthApp provides a series of tools to provide a better interaction between pat
 This application is integrated with HealthKit, Firebase and Realm it means that every record of alimentation, sports and more are synchronized between doctor and patient in real time.
 In addition incorporates an image analyzer, working in conjunction with automated learning algorithms to predict the presence of different skin lesions with just one photo.
 
-Check [Patient App](https://github.com/ColeMacGrath/HealthApp)
+## [Patient App](https://github.com/ColeMacGrath/HealthApp)
+		
+
+| ![alt text](https://user-images.githubusercontent.com/42153044/61584929-026f7580-ab16-11e9-88cc-b8e788d20cf5.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61584926-026f7580-ab16-11e9-80be-9b6644326c34.png) | ![alt text](https://user-images.githubusercontent.com/42153044/61584924-026f7580-ab16-11e9-9f25-0c9eb388b30e.png) |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 
 ## Getting started
 
