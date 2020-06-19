@@ -6,6 +6,13 @@ target 'HealthApp' do
   use_frameworks!
 
   # Pods for HealthApp
-  pod 'JTAppleCalendar'
   pod 'Charts'
+  pod 'Firebase'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+  pod 'Firebase/Storage'
+  pod 'FloatingPanel'
+  pod 'IQKeyboardManagerSwift'
+  pod 'JTAppleCalendar'
+  pod 'RealmSwift'
 end
